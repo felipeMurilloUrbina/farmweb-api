@@ -1,0 +1,53 @@
+<div class="col-md-12">
+    <div class="card">
+      <!-- <div class="card-header"></div> -->
+      <div class="card-body">
+        <form #sucursalForm="ngForm" (submit)="save(sucursal);" ngNativeValidate>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="codigoInput">Codigo:</label>
+                <input type="text" class="form-control"  #codigoInput id="codigo" [value]="sucursal.codigo" (change)="sucursal.codigo = codigoInput.value" placeholder="Codigo ..." required>
+              </div>
+            </div>
+  
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="descripcionInput">Descripcion:</label>
+                <input type="text" class="form-control"  #descripcionInput id="descripcion" [value]="sucursal.descripcion" (change)="sucursal.descripcion = descripcionInput.value" placeholder="Descripcion ..." required>
+              </div>
+            </div>
+  
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="nombreComercialInput">NombreComercial:</label>
+                <input type="text" class="form-control"  #nombreComercialInput id="nombreComercial" [value]="sucursal.nombreComercial" (change)="sucursal.nombreComercial = nombreComercialInput.value" placeholder="NombreComercial ..." required>
+              </div>
+            </div>
+  
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="rfcInput">RFC:</label>
+                <input type="text" class="form-control"  #rfcInput id="rfc" [value]="sucursal.rfc" (change)="sucursal.rfc = rfcInput.value" placeholder="RFC ..." required>
+              </div>
+            </div>
+  
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="municipioInput">Municipio:</label>
+                <input type="text" class="form-control"  #municipioInput id="municipio" [value]="sucursal.municipio" (change)="sucursal.municipio = municipioInput.value" placeholder="Municipio ..." required>
+              </div>
+            </div>
+  
+   
+          </div>  
+          <div  class="container-fluid text-center">
+            <a class="btn btn-app" routerLink="/admin/sucursales">
+              <i class="fa fa-arrow-circle-left"></i> Cancelar
+            </a>
+            <button type="submit" class="btn btn-app"><i class="fa fa-save"></i>Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

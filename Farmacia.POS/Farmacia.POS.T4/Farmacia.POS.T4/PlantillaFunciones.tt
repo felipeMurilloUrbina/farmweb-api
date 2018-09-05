@@ -1,0 +1,158 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ Assembly Name="System.Data" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ output extension=".txt" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#+
+private void guardarSalida(string directorioRaiz,string outputFileName) {
+  if(!Directory.Exists(directorioRaiz))
+            Directory.CreateDirectory(directorioRaiz);
+  string outputFilePath =Path.Combine(directorioRaiz, outputFileName);
+  File.WriteAllText(outputFilePath, this.GenerationEnvironment.ToString()); 
+  this.GenerationEnvironment.Remove(0, this.GenerationEnvironment.Length);
+}
+#>
+<#+
+private DataRowCollection getColumnas(string tabla) 
+{   
+        DataSet datColumnas= ejecutarConsulta(string.Format("    select "+
+            " st.name [Table],"+
+            " sc.name [Column],"+
+            " sep.value [Description]"+
+            " from sys.tables st"+
+            " inner join sys.columns sc on st.object_id = sc.object_id"+
+            " left join sys.extended_properties sep on st.object_id = sep.major_id"+
+            " and sc.column_id = sep.minor_id"+
+            " and sep.name = 'MS_Description'  where st.name='{0}' and  sep.value is not null and sep.value<>''",tabla));
+        return datColumnas.Tables[0].Rows;
+}
+#>
+<#+
+private DataRowCollection getColumnasModelo(string tabla) 
+{   
+        DataSet datColumnas= ejecutarConsulta(string.Format("SELECT t.name, td.value AS [table_desc], c.name as columna, y.user_type_id, y.name  as tipo"+
+            " FROM sys.sysobjects t JOIN sys.columns c ON t.id = c.object_id JOIN "+
+            " sys.types y ON y.system_type_id = c.system_type_id "+
+            " JOIN sys.extended_properties td on  td.major_id = t.id AND td.minor_id = 0 "+
+            " AND     td.name = 'MS_Description' where t.name='{0}' and y.name <> 'sysname' order by  c.column_id",tabla));
+        return datColumnas.Tables[0].Rows;
+}
+#>
+<#+
+    private DataSet getColumnasTipoDescripcion(string tabla) 
+    {   
+        DataSet dt = new DataSet();
+        var sql ="SELECT t.name, td.value AS [table_desc], c.name as columna, y.user_type_id, y.name  as tipo"+
+            " FROM sys.sysobjects t JOIN sys.columns c ON t.id = c.object_id JOIN "+
+            " sys.types y ON y.system_type_id = c.system_type_id "+
+            " JOIN sys.extended_properties td on  td.major_id = t.id AND td.minor_id = 0 "+
+            " AND     td.name = 'MS_Description' where t.name='{0}' and y.name <> 'sysname' order by  c.column_id;";
+        sql+="select "+
+            " st.name [Table],"+
+            " sc.name [Column],"+
+            " sep.value [Description]"+
+            " from sys.tables st"+
+            " inner join sys.columns sc on st.object_id = sc.object_id"+
+            " left join sys.extended_properties sep on st.object_id = sep.major_id"+
+            " and sc.column_id = sep.minor_id"+
+            " and sep.name = 'MS_Description'  where st.name='{0}';";
+        DataSet datColumnas= ejecutarConsulta(string.Format(sql,tabla));
+        return datColumnas;
+}
+#>
+<#+
+private DataSet ejecutarConsulta(string consulta) 
+{
+        DataSet datos = new DataSet();
+        string connectionString = "data source=.;initial catalog=FarmBD;integrated security=SSPI";
+        using(var conexion = new SqlConnection(connectionString))
+        {
+            SqlCommand comm = new SqlCommand(consulta, conexion);
+            conexion.Open();
+            SqlDataAdapter reader = new SqlDataAdapter(comm);       
+            reader.Fill(datos);
+        }
+        return datos;
+}
+#>
+<#+
+private string toCamelCase(string propiedad)
+{
+        return propiedad[0].ToString().ToLower()+propiedad.Substring(1);
+}
+#>
+<#+
+private string toCamelCaseArchivo(string propiedad)
+{
+        string respuesta= propiedad[0].ToString().ToLower();
+        for(int i=1; i<propiedad.ToCharArray().Length; i++)
+        {
+            char letra=(char)propiedad[i];
+            respuesta +=  char.IsUpper(letra)== true? "-"+propiedad[i].ToString().ToLower(): propiedad[i].ToString();  
+        }
+        return respuesta;
+}
+#>
+<#+
+private string getTipo(string tipoBD)
+{
+        switch(tipoBD){
+        case "int":
+             return "number";
+        case "decimal":
+            return "number";
+        case "money":
+           return "number";
+        case "datetime":
+           return "Date";
+         default:
+           return "string";
+        }
+}
+#>
+<#+
+private string singulalizarPalabra(string nombre) {
+        if(nombre.ToLower().Contains("lineas"))
+            return nombre.Remove(nombre.Length-1);
+        switch(nombre.Substring(nombre.Length-3))
+        {
+            case "das":
+                return nombre.Remove(nombre.Length-1);
+            case "nes":
+                return nombre.Remove(nombre.Length-2);
+            case "eas":
+                return nombre.Remove(nombre.Length-2);
+            case "ias":
+                return nombre.Remove(nombre.Length-1);
+            case "tes":
+                return nombre.Remove(nombre.Length-1);
+            case "sas":
+                return nombre.Remove(nombre.Length-1);
+            case "tos":
+                return nombre.Remove(nombre.Length-1);
+            case "pos":
+                return nombre.Remove(nombre.Length-1);
+            case "les":
+                return nombre.Remove(nombre.Length-2);
+            default: 
+                return nombre;
+
+        }
+}
+#>
+<#+
+private void EliminarTodosArchivos(string ruta)
+{
+        if(Directory.Exists(ruta)) { 
+           var archivos=  Directory.GetFiles(ruta);
+           foreach(var archivo in archivos)
+                File.Delete(archivo);
+        }
+}
+#>

@@ -1,0 +1,269 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ Assembly Name="System.Data" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ output extension=".txt" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ include file="$(ProjectDir)\PlantillaFunciones.tt" #>
+
+<#
+    string directorioRaiz = Path.GetDirectoryName(Host.TemplateFile);
+    directorioRaiz  = Path.Combine(directorioRaiz,"Controllers");
+    EliminarTodosArchivos(directorioRaiz);
+    DataSet datTablas= ejecutarConsulta("SELECT t.name, td.value AS [table_desc] "+
+        "FROM sys.sysobjects t "+
+        " JOIN sys.extended_properties td on  td.major_id = t.id "+
+        " AND     td.minor_id = 0 "+
+        " AND     td.name = 'MS_Description'"+
+        " order by  t.name ");
+    foreach(DataRow renglon in datTablas.Tables[0].Rows)
+    { 
+#>
+using Farmacia.POS.BLL;
+using Farmacia.POS.DAO;
+using Farmacia.POS.Model;
+using Farmacia.POS.WebApi.Infrastructure;
+using Farmacia.POS.WebApi.Models;
+using Farmacia.POS.WebApi.Properties;
+using Microsoft.AspNet.Identity;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace Farmacia.POS.WebApi.Controllers
+{
+    [RoutePrefix("api/<#=(toCamelCase(renglon["name"].ToString())) #>")]
+    public class <#=(renglon["name"].ToString()) #>Controller : BaseApiController
+    {
+        readonly Servicio<#=singulalizarPalabra(renglon["name"].ToString()) #> _servicio = null;
+        Contexto _contexto = null;
+        string _element = "<#=singulalizarPalabra(renglon["name"].ToString()) #>";
+        public <#=(renglon["name"].ToString()) #>Controller(): base()
+        {
+            _contexto = new Contexto();
+            var repository = new <#=singulalizarPalabra(renglon["name"].ToString()) #>Repository(_avikaDB, _logger);
+            this._servicio = new Servicio<#=singulalizarPalabra(renglon["name"].ToString()) #>(repository);
+        }
+        /// <summary>
+        /// Get {<#=(renglon["name"].ToString()) #>}
+        /// </summary>
+        /// <returns>List of <#=(renglon["name"].ToString()) #> </returns>
+        [Route(""), HttpGet]
+        public async Task<IHttpActionResult> Get([FromUri]int? page = null, [FromUri] int? qty = null)
+        {
+            page = page == null || page == 0 ? 1 : page;
+            qty = qty ?? 0;
+            return Ok(this._servicio.Get(page, qty).Result);
+        }
+        /// <summary>
+        /// Get {category}
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns><#=(renglon["name"].ToString()) #> </returns>
+        [HttpGet]
+        public async Task<IHttpActionResult> GetId(int id)
+        {
+            return Ok(_servicio.Get(id));
+        }
+        /// <summary>
+        /// Post to <#=(renglon["name"].ToString()) #>
+        /// </summary>
+        /// <param name="<#=(renglon["name"].ToString()) #>"></param>
+        /// <returns></returns>
+        [Route(""), CustomAuthorize(Role = "Administrador"), HttpPost]
+        public async Task<IHttpActionResult> Post(<#=singulalizarPalabra(renglon["name"].ToString()) #>Dto <#=toCamelCase(renglon["name"].ToString()) #>)
+        {
+            if (category == null)
+                return BadRequest(String.Format(Resources.RequestEmpty, _element));
+            var principal = RequestContext.Principal as ClaimsPrincipal;
+            category.UserCreatorId = principal.Identity.GetUserId();
+            category.UserModificatorId = principal.Identity.GetUserId();
+            var res = this._servicio.Post(category).Result;
+            if (res > 0)
+                return Ok(String.Format(Resources.SaveOk, _element));
+            else
+                return BadRequest(String.Format(Resources.SaveError, _element));
+        }
+        /// <summary>
+        /// Update {category}
+        /// </summary>
+        /// <retuns></returns>
+        [Route(""), CustomAuthorize(Role = "Administrador"), HttpPut]
+        public async Task<IHttpActionResult> Put(<#=singulalizarPalabra(renglon["name"].ToString()) #>Dto <#=toCamelCase(renglon["name"].ToString()) #>)
+        {
+            if (category == null)
+                return BadRequest(String.Format(Resources.RequestEmpty, _element));
+            var principal = RequestContext.Principal as ClaimsPrincipal;
+            category.UserModificatorId = principal.Identity.GetUserId();
+            var res = this._servicio.Put(category).Result;
+            switch (res)
+            {
+                case -1:
+                    return BadRequest(String.Format(Resources.UpdateError, _element));
+                default:
+                    return Ok(String.Format(Resources.UpdateOk, _element));
+            }
+
+        }
+        /// <summary>
+        /// Borrar {<#=(renglon["name"].ToString()) #>}
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        [Route("{id}"), CustomAuthorize(Role = "Administrador"), HttpDelete]
+        public async Task<IHttpActionResult> Delete(int id)
+        {
+            var res = this._servicio.Delete(id).Result;
+            if (res > 0)
+            {
+                return Ok(String.Format(Resources.DeleteOk, _element));
+            }
+            else
+            {
+                return BadRequest(String.Format(Resources.DeleteError, _element));
+            }
+        }
+    }
+}
+
+<#
+  guardarSalida(directorioRaiz,renglon["name"].ToString() + "Controller.cs");
+    }
+#>
+
+
+<#+
+private void guardarSalida(string directorioRaiz,string outputFileName) {
+  if(!Directory.Exists(directorioRaiz))
+            Directory.CreateDirectory(directorioRaiz);
+  string outputFilePath =Path.Combine(directorioRaiz, outputFileName);
+  File.WriteAllText(outputFilePath, this.GenerationEnvironment.ToString()); 
+  this.GenerationEnvironment.Remove(0, this.GenerationEnvironment.Length);
+}
+#>
+
+<#+
+    public class Tabla{
+        public string nombre{get; set;}
+        public List<Columna> columnas{get; set;}    
+}
+    public class Columna{
+        public string nombre{get; set;}
+        public string tipo{get; set;}
+}
+ #>
+
+<#+
+private DataSet ejecutarConsulta(string consulta) 
+{
+        DataSet datos = new DataSet();
+        string connectionString = "data source=.;initial catalog=FarmBD;integrated security=SSPI";
+        using(var conexion = new SqlConnection(connectionString))
+        {
+            SqlCommand comm = new SqlCommand(consulta, conexion);
+            conexion.Open();
+            SqlDataAdapter reader = new SqlDataAdapter(comm);       
+            reader.Fill(datos);
+        }
+        return datos;
+}
+#>
+<#+
+private string toCamelCase(string propiedad)
+{
+        return propiedad[0].ToString().ToLower()+propiedad.Substring(1);
+}
+#>
+<#+
+private string toCamelCaseArchivo(string propiedad)
+{
+        string respuesta= propiedad[0].ToString().ToLower();
+        for(int i=1; i<propiedad.ToCharArray().Length; i++)
+        {
+            char letra=(char)propiedad[i];
+            respuesta +=  char.IsUpper(letra)== true? "-"+propiedad[i].ToString().ToLower(): propiedad[i].ToString();  
+        }
+        return respuesta;
+}
+#>
+<#+
+private string getTipo(string tipoBD)
+{
+        switch(tipoBD){
+        case "int":
+             return "number";
+        case "decimal":
+            return "number";
+        case "money":
+           return "number";
+        case "datetime":
+           return "Date";
+         default:
+           return "string";
+        }
+}
+#>
+<#+
+private string singulalizarPalabra(string nombre) {
+        switch(nombre.Substring(nombre.Length-3))
+        {
+            case "nes":
+                return nombre.Remove(nombre.Length-2);
+            case "eas":
+                return nombre.Remove(nombre.Length-2);
+            case "ias":
+                return nombre.Remove(nombre.Length-1);
+            case "tes":
+                return nombre.Remove(nombre.Length-1);
+            case "sas":
+                return nombre.Remove(nombre.Length-1);
+            case "tos":
+                return nombre.Remove(nombre.Length-1);
+            case "les":
+                return nombre.Remove(nombre.Length-2);
+            default: 
+                return nombre.Remove(nombre.Length-1);
+
+        }
+}
+#>
+<#+
+private string singulalizarPalabraArchivo(string nombre) {
+        switch(nombre.Substring(nombre.Length-3))
+        {
+            case "nes":
+                return nombre.Remove(nombre.Length-2);
+            case "eas":
+                return nombre.Remove(nombre.Length-2);
+            case "ias":
+                return nombre.Remove(nombre.Length-1);
+            case "tes":
+                return nombre.Remove(nombre.Length-1);
+            case "sas":
+                return nombre.Remove(nombre.Length-1);
+            case "tos":
+                return nombre.Remove(nombre.Length-1);
+            default: 
+                return  nombre;
+        }
+}
+#>
+
+<#+
+private void EliminarTodosArchivos(string ruta)
+{
+        if(Directory.Exists(ruta)) { 
+           var archivos=  Directory.GetFiles(ruta);
+           foreach(var archivo in archivos)
+                File.Delete(archivo);
+        }
+}
+#>

@@ -1,0 +1,53 @@
+<div class="col-md-12">
+    <div class="card">
+      <!-- <div class="card-header"></div> -->
+      <div class="card-body">
+        <form #clienteForm="ngForm" (submit)="save(cliente);" ngNativeValidate>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="descripcionInput">Descripcion:</label>
+                <input type="text" class="form-control"  #descripcionInput id="descripcion" [value]="cliente.descripcion" (change)="cliente.descripcion = descripcionInput.value" placeholder="Descripcion ..." required>
+              </div>
+            </div>
+  
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="calleInput">Calle:</label>
+                <input type="text" class="form-control"  #calleInput id="calle" [value]="cliente.calle" (change)="cliente.calle = calleInput.value" placeholder="Calle ..." required>
+              </div>
+            </div>
+  
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="codigoPostalInput">Codigo Postal:</label>
+                <input type="text" class="form-control"  #codigoPostalInput id="codigoPostal" [value]="cliente.codigoPostal" (change)="cliente.codigoPostal = codigoPostalInput.value" placeholder="Codigo Postal ..." required>
+              </div>
+            </div>
+  
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="rfcInput">RFC:</label>
+                <input type="text" class="form-control"  #rfcInput id="rfc" [value]="cliente.rfc" (change)="cliente.rfc = rfcInput.value" placeholder="RFC ..." required>
+              </div>
+            </div>
+  
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="fechaInput">Fecha:</label>
+                <input type="date" class="form-control"  #fechaInput id="fecha" [value]="cliente.fecha" (change)="cliente.fecha = fechaInput.value" placeholder="Fecha ..." required>
+              </div>
+            </div>
+  
+   
+          </div>  
+          <div  class="container-fluid text-center">
+            <a class="btn btn-app" routerLink="/admin/clientes">
+              <i class="fa fa-arrow-circle-left"></i> Cancelar
+            </a>
+            <button type="submit" class="btn btn-app"><i class="fa fa-save"></i>Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

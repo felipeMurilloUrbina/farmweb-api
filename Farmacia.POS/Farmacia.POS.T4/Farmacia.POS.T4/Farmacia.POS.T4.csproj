@@ -1,0 +1,188 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="PlantillaFunciones.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaFunciones.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlantillaModelo.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaModelo.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="PlantillaFunciones.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaFunciones.tt</DependentUpon>
+    </None>
+    <None Include="PlantillaModelo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaModelo.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="PlantillaComponente - copia.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PlantillaComponente - copia.txt</LastGenOutput>
+    </None>
+    <None Update="PlantillaComponenteCrear.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PlantillaComponenteCrear.txt</LastGenOutput>
+    </None>
+    <None Update="PlantillaComponente.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PlantillaComponente.txt</LastGenOutput>
+    </None>
+    <None Update="PlantillaComponente.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaComponente.tt</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PlantillaComponente.cs</LastGenOutput>
+    </None>
+    <None Update="PlantillaComponenteCrear.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaComponenteCrear.tt</DependentUpon>
+    </None>
+    <None Update="PlantillaComponentehtmlCrear.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PlantillaComponentehtmlCrear.txt</LastGenOutput>
+    </None>
+    <None Update="PlantillaComponentehtmlCrear.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaComponentehtmlCrear.tt</DependentUpon>
+    </None>
+    <None Update="PlantillaFunciones.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PlantillaFunciones.txt</LastGenOutput>
+    </None>
+    <None Update="PlantillaFunciones.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaFunciones.tt</DependentUpon>
+    </None>
+    <None Update="PlantillaModelo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PlantillaModelo.txt</LastGenOutput>
+    </None>
+    <None Update="PlantillaController.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PlantillaController.txt</LastGenOutput>
+    </None>
+    <None Update="PlantillaController.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaController.tt</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PlantillaController.cs</LastGenOutput>
+    </None>
+    <None Update="PlantillaModelo.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaModelo.tt</DependentUpon>
+    </None>
+    <None Update="PlantillaRoutingGeneral.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PlantillaRoutingGeneral.txt</LastGenOutput>
+    </None>
+    <None Update="PlantillaRoutingGeneral.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaRoutingGeneral.tt</DependentUpon>
+    </None>
+    <None Update="PlantillaServicioC.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PlantillaServicioC.txt</LastGenOutput>
+    </None>
+    <None Update="PlantillaServicioC.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaServicioC.tt</DependentUpon>
+    </None>
+    <None Update="PlantillaServicio.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PlantillaServicio.txt</LastGenOutput>
+    </None>
+    <None Update="PlantillaServicio.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaServicio.tt</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PlantillaComponente.cs</LastGenOutput>
+    </None>
+    <None Update="PlantillaModule.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PlantillaModule.txt</LastGenOutput>
+    </None>
+    <None Update="PlantillaModule.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaModule.tt</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PlantillaModule.cs</LastGenOutput>
+    </None>
+    <None Update="PlantillaComponentehtml.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PlantillaComponentehtml.txt</LastGenOutput>
+    </None>
+    <None Update="PlantillaComponentehtml.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaComponentehtml.tt</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PlantillaComponentehtml.cs</LastGenOutput>
+    </None>
+    <None Update="PlantillaServicio.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaServicio.tt</DependentUpon>
+      <LastGenOutput>PlantillaServicio.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="PlantillaComponentehtml.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaComponentehtml.txt</DependentUpon>
+    </Compile>
+    <Compile Update="PlantillaComponente.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaComponente.txt</DependentUpon>
+    </Compile>
+    <Compile Update="PlantillaController.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaController.txt</DependentUpon>
+    </Compile>
+    <Compile Update="PlantillaServicio.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaServicio.txt</DependentUpon>
+    </Compile>
+    <Compile Update="PlantillaModule.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaModule.txt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

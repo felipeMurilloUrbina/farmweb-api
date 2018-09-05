@@ -1,0 +1,46 @@
+<div class="col-md-12">
+    <div class="card">
+      <!-- <div class="card-header"></div> -->
+      <div class="card-body">
+        <form #productoForm="ngForm" (submit)="save(producto);" ngNativeValidate>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="codigoInput">Codigo:</label>
+                <input type="text" class="form-control"  #codigoInput id="codigo" [value]="producto.codigo" (change)="producto.codigo = codigoInput.value" placeholder="Codigo ..." required>
+              </div>
+            </div>
+  
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="descripcionInput">Descripcion:</label>
+                <input type="text" class="form-control"  #descripcionInput id="descripcion" [value]="producto.descripcion" (change)="producto.descripcion = descripcionInput.value" placeholder="Descripcion ..." required>
+              </div>
+            </div>
+  
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="precioInput">Precio:</label>
+                <input type="number" class="form-control"  #precioInput step="any" id="precio" [value]="producto.precio" (change)="producto.precio = precioInput.value" placeholder="Precio ..." required>
+              </div>
+            </div>
+  
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="fechaInput">Fecha:</label>
+                <input type="date" class="form-control"  #fechaInput id="fecha" [value]="producto.fecha" (change)="producto.fecha = fechaInput.value" placeholder="Fecha ..." required>
+              </div>
+            </div>
+  
+   
+          </div>  
+          <div  class="container-fluid text-center">
+            <a class="btn btn-app" routerLink="/admin/productos">
+              <i class="fa fa-arrow-circle-left"></i> Cancelar
+            </a>
+            <button type="submit" class="btn btn-app"><i class="fa fa-save"></i>Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

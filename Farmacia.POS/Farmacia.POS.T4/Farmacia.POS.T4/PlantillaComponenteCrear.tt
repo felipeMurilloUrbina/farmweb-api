@@ -1,0 +1,89 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ Assembly Name="System.Data" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ output extension=".txt" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ include file="$(ProjectDir)\PlantillaFunciones.tt" #>
+<#
+    string directorioRaiz = @"C:\desarrollo\GitHub\farmfront-end\src\app"; //Path.GetDirectoryName(Host.TemplateFile);
+    //string directorioRaiz = Path.GetDirectoryName(Host.TemplateFile);
+    directorioRaiz  = Path.Combine(directorioRaiz,"_modulos");
+    DataSet datTablas= ejecutarConsulta("SELECT t.name, td.value AS [table_desc] "+
+        "FROM sys.sysobjects t "+
+        " JOIN sys.extended_properties td on  td.major_id = t.id "+
+        " AND     td.minor_id = 0 "+
+        " AND     td.name = 'MS_Description'"+
+        " order by  t.name ");
+    foreach(DataRow renglon in datTablas.Tables[0].Rows)
+    {
+#>
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder } from '@angular/forms';
+import { <#=singulalizarPalabra(renglon["name"].ToString()) #>Service } from '../../../_servicios/<#=singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString())) #>.service';
+import { <#=singulalizarPalabra(renglon["name"].ToString()) #> } from '../../../_modelos/<#=singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString())) #>.model';
+import { MensajeEstatus } from '../../../_modelos/mensaje.enum';
+
+@Component({
+  selector: 'app-nuevo-<#=singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString())) #>',
+  templateUrl: './nuevo.component.html',
+  styleUrls: ['./nuevo.component.css']
+})
+export class Nuevo<#=singulalizarPalabra(renglon["name"].ToString()) #>Component implements OnInit {
+  <#=(renglon["name"].ToString()) #>: any[];
+  cols: any[];
+  titulo = 'Nuevo <#=singulalizarPalabra(renglon["name"].ToString()) #>';
+  <#=singulalizarPalabra(toCamelCase(renglon["name"].ToString())) #>: <#=singulalizarPalabra(renglon["name"].ToString()) #>;
+  constructor(private router: Router, private route: ActivatedRoute, private fb: FormBuilder, private servicio: <#=singulalizarPalabra(renglon["name"].ToString()) #>Service) {
+    this.<#=singulalizarPalabra(toCamelCase(renglon["name"].ToString())) #> = new <#=singulalizarPalabra(renglon["name"].ToString()) #>();
+    this.route.params
+      .subscribe(params => {
+        if (params['id'] !== undefined) {
+            this.<#=singulalizarPalabra(toCamelCase(renglon["name"].ToString())) #>.id = params['id'];
+        }
+      });
+<#
+        DataRowCollection columnas = getColumnas(renglon["name"].ToString());                                                                                                            
+#>
+  }
+
+  ngOnInit() {
+    this.get();
+  }
+
+  get() {
+    if (this.<#=singulalizarPalabra(toCamelCase(renglon["name"].ToString())) #>.id) {
+        this.servicio.getId(this.<#=singulalizarPalabra(toCamelCase(renglon["name"].ToString())) #>.id).subscribe(data => {
+          this.<#=singulalizarPalabra(toCamelCase(renglon["name"].ToString())) #> = data['item'];
+        });
+    }
+  }
+
+  limpiar() {
+  }
+
+  regresar() {
+    this.router.navigate(['/admin/<#=(toCamelCaseArchivo(renglon["name"].ToString())) #>'], { queryParams: {} });
+  }
+
+  validar() {
+  }
+
+  guardar() {
+    this.servicio.save(this.<#=singulalizarPalabra(toCamelCase(renglon["name"].ToString())) #>, '').subscribe( dato => {
+        this.servicio.enviarMensaje(MensajeEstatus.ok, '<#=renglon["name"].ToString() #>', dato);
+        this.limpiar();
+    });
+  }
+}
+<#
+  guardarSalida(Path.Combine(directorioRaiz,singulalizarPalabra(toCamelCaseArchivo( renglon["name"].ToString())), "nuevo"), "nuevo.component.ts");
+  guardarSalida(Path.Combine(directorioRaiz,singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString())), "nuevo"), "nuevo.component.css");
+    }
+#>  
