@@ -11,7 +11,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ include file="$(ProjectDir)\PlantillaFunciones.tt" #>
 <#
-    string directorioRaiz = @"C:\desarrollo\GitHub\farmfront-end\src\app"; //Path.GetDirectoryName(Host.TemplateFile);
+    string directorioRaiz = @"C:\desarrollo\GitHub\sazaSuitefront-end\src\app"; //Path.GetDirectoryName(Host.TemplateFile);
     //string directorioRaiz = Path.GetDirectoryName(Host.TemplateFile);
     directorioRaiz  = Path.Combine(directorioRaiz,"_servicios");
     //EliminarTodosArchivos(directorioRaiz);
@@ -27,11 +27,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import { ToasterService } from 'angular2-toaster';
 @Injectable()
 export class <#=singulalizarPalabra(renglon["name"].ToString()) #>Service extends BaseService {
- constructor(public http: HttpClient, toasterService: ToasterService) {
-    super(http, '<#=toCamelCase(renglon["name"].ToString()) #>', toasterService);
+ constructor(public http: HttpClient) {
+    super(http, '<#=toCamelCase(renglon["name"].ToString()) #>');
   }
 
   getProfile(id: string) {

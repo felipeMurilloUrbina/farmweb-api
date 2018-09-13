@@ -34,7 +34,7 @@ namespace Farmacia.POS.Model
             Property(x => x.TipoPlanId).HasColumnName(@"TipoPlanId").HasColumnType("int").IsRequired();
             Property(x => x.Descripcion).HasColumnName(@"Descripcion").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(300);
             Property(x => x.Avatar).HasColumnName(@"Avatar").HasColumnType("varchar(max)").IsOptional().IsUnicode(false);
-            Property(x => x.Fecha).HasColumnName(@"Fecha").HasColumnType("datetime").IsOptional();
+            Property(x => x.Fecha).HasColumnName(@"Fecha").HasColumnType("datetime").IsRequired();
             Property(x => x.Activo).HasColumnName(@"Activo").HasColumnType("bit").IsRequired();
 
             // Foreign keys

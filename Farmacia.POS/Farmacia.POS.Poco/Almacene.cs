@@ -30,21 +30,29 @@ namespace Farmacia.POS.Model
         public string UsuarioModificadorId { get; set; } // UsuarioModificadorId (length: 128)
 
         ///<summary>
-        /// Codigo
+        /// @Encabezado:Si@Label:Codigo@Capturable:Si
         ///</summary>
         public string Codigo { get; set; } // Codigo (length: 50)
+
+        ///<summary>
+        /// @Encabezado:Si@Label:Descripcion:@Capturable:Si
+        ///</summary>
         public string Descripcion { get; set; } // Descripcion (length: 300)
         public bool Activo { get; set; } // Activo
 
         ///<summary>
-        /// Valor Minimo
+        /// @Encabezado:Si@Label:Valor Minimo@Capturable:No
         ///</summary>
         public decimal ValorMin { get; set; } // ValorMin
 
         ///<summary>
-        /// Valor Maximo
+        /// @Encabezado:Si@Label:Valor Maximo@Capturable:No
         ///</summary>
         public decimal ValorMax { get; set; } // ValorMax
+
+        ///<summary>
+        /// @Encabezado:Si@Label:Fecha
+        ///</summary>
         public System.DateTime Fecha { get; set; } // Fecha
 
         // Reverse navigation
@@ -53,6 +61,18 @@ namespace Farmacia.POS.Model
         /// Child AlmacenProductoes where [AlmacenProductos].[AlmacenId] point to this entity (FK_AlmacenProductos_Almacenes)
         /// </summary>
         public virtual System.Collections.Generic.ICollection<AlmacenProducto> AlmacenProductoes { get; set; } // AlmacenProductos.FK_AlmacenProductos_Almacenes
+        /// <summary>
+        /// Child InventarioFisicoes where [InventarioFisicos].[AlmacenId] point to this entity (FK_InventarioFisicos_Almacenes)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<InventarioFisico> InventarioFisicoes { get; set; } // InventarioFisicos.FK_InventarioFisicos_Almacenes
+        /// <summary>
+        /// Child MaximosMinimoes where [MaximosMinimos].[AlmacenId] point to this entity (FK_MaximosMinimos_Almacenes)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<MaximosMinimo> MaximosMinimoes { get; set; } // MaximosMinimos.FK_MaximosMinimos_Almacenes
+        /// <summary>
+        /// Child Movimientoes where [Movimientos].[AlmacenId] point to this entity (FK_Movimientos_Almacenes)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<Movimiento> Movimientoes { get; set; } // Movimientos.FK_Movimientos_Almacenes
 
         // Foreign keys
 
@@ -69,6 +89,9 @@ namespace Farmacia.POS.Model
         public Almacene()
         {
             AlmacenProductoes = new System.Collections.Generic.List<AlmacenProducto>();
+            InventarioFisicoes = new System.Collections.Generic.List<InventarioFisico>();
+            MaximosMinimoes = new System.Collections.Generic.List<MaximosMinimo>();
+            Movimientoes = new System.Collections.Generic.List<Movimiento>();
             InitializePartial();
         }
 

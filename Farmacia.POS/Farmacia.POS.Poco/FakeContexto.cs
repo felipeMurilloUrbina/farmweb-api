@@ -25,16 +25,23 @@ namespace Farmacia.POS.Model
         public System.Data.Entity.DbSet<AlmacenProducto> AlmacenProductoes { get; set; }
         public System.Data.Entity.DbSet<Categoria> Categorias { get; set; }
         public System.Data.Entity.DbSet<Cliente> Clientes { get; set; }
+        public System.Data.Entity.DbSet<Cobranza> Cobranzas { get; set; }
         public System.Data.Entity.DbSet<Empresa> Empresas { get; set; }
         public System.Data.Entity.DbSet<Entrada> Entradas { get; set; }
         public System.Data.Entity.DbSet<EntradaDetalle> EntradaDetalles { get; set; }
         public System.Data.Entity.DbSet<Formato> Formatoes { get; set; }
+        public System.Data.Entity.DbSet<Grupos> Grupos { get; set; }
+        public System.Data.Entity.DbSet<InventarioFisico> InventarioFisicoes { get; set; }
         public System.Data.Entity.DbSet<Linea> Lineas { get; set; }
         public System.Data.Entity.DbSet<Lote> Lotes { get; set; }
+        public System.Data.Entity.DbSet<MaximosMinimo> MaximosMinimoes { get; set; }
+        public System.Data.Entity.DbSet<Moneda> Monedas { get; set; }
+        public System.Data.Entity.DbSet<Movimiento> Movimientoes { get; set; }
         public System.Data.Entity.DbSet<Plane> Planes { get; set; }
         public System.Data.Entity.DbSet<Producto> Productoes { get; set; }
         public System.Data.Entity.DbSet<Sucursale> Sucursales { get; set; }
         public System.Data.Entity.DbSet<TiposMovimiento> TiposMovimientoes { get; set; }
+        public System.Data.Entity.DbSet<TransferenciasInterna> TransferenciasInternas { get; set; }
 
         public FakeContexto()
         {
@@ -43,19 +50,26 @@ namespace Farmacia.POS.Model
             _database = null;
 
             Almacenes = new FakeDbSet<Almacene>("Id");
-            AlmacenProductoes = new FakeDbSet<AlmacenProducto>("ProductoId", "AlmacenId", "Stock");
+            AlmacenProductoes = new FakeDbSet<AlmacenProducto>("ProductoId", "AlmacenId", "UsuarioCreadorId", "Stock", "CostoPromedio", "FechaUltimo");
             Categorias = new FakeDbSet<Categoria>("Id");
             Clientes = new FakeDbSet<Cliente>("Id");
+            Cobranzas = new FakeDbSet<Cobranza>("Id", "ClienteId", "EmpresaId", "SucursalId", "SaldoActual", "Activo", "Fecha");
             Empresas = new FakeDbSet<Empresa>("Id");
             Entradas = new FakeDbSet<Entrada>("Id");
             EntradaDetalles = new FakeDbSet<EntradaDetalle>("EntradaId", "ProductoId", "Cantidad", "Costo", "Costo1", "Iva");
             Formatoes = new FakeDbSet<Formato>("Id");
+            Grupos = new FakeDbSet<Grupos>("Id");
+            InventarioFisicoes = new FakeDbSet<InventarioFisico>("Id");
             Lineas = new FakeDbSet<Linea>("Id");
             Lotes = new FakeDbSet<Lote>("Id");
+            MaximosMinimoes = new FakeDbSet<MaximosMinimo>("Id", "AlmacenId", "ProductoId", "EmpresaId", "ValorMin", "ValorMax", "Activo", "Fecha");
+            Monedas = new FakeDbSet<Moneda>("Id");
+            Movimientoes = new FakeDbSet<Movimiento>("Id");
             Planes = new FakeDbSet<Plane>("Id");
             Productoes = new FakeDbSet<Producto>("Id");
             Sucursales = new FakeDbSet<Sucursale>("Id");
             TiposMovimientoes = new FakeDbSet<TiposMovimiento>("Id");
+            TransferenciasInternas = new FakeDbSet<TransferenciasInterna>("Id");
         }
 
         public int SaveChangesCount { get; private set; }

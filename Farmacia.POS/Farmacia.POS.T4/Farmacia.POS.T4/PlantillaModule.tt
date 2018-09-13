@@ -11,7 +11,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ include file="$(ProjectDir)\PlantillaFunciones.tt" #>
 <#
-    string directorioRaiz = @"C:\desarrollo\GitHub\farmfront-end\src\app"; //Path.GetDirectoryName(Host.TemplateFile);
+    string directorioRaiz = @"C:\desarrollo\GitHub\sazaSuitefront-end\src\app"; //Path.GetDirectoryName(Host.TemplateFile);
     //string directorioRaiz = Path.GetDirectoryName(Host.TemplateFile);
     directorioRaiz  = Path.Combine(directorioRaiz,"_modulos");
     DataSet datTablas= ejecutarConsulta("SELECT t.name, td.value AS [table_desc] "+
@@ -26,7 +26,7 @@
 #>
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModulesPrimeng } from '../../_interceptors/modulos';
+import { ModulesPrimeng } from '../../_utils/modulos.module';
 
 import { <#=singulalizarPalabra(renglon["name"].ToString()) #>RoutingModule } from './<#=singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString())) #>-routing.module';
 import { <#=singulalizarPalabra(renglon["name"].ToString()) #>Component } from './<#=singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString())) #>.component';
@@ -35,8 +35,8 @@ import { Nuevo<#=singulalizarPalabra(renglon["name"].ToString()) #>Component } f
 
 @NgModule({
   imports: [
-    ModulesPrimeng,
     CommonModule,
+    ModulesPrimeng,
     <#=singulalizarPalabra(renglon["name"].ToString()) #>RoutingModule
   ],
   declarations: [

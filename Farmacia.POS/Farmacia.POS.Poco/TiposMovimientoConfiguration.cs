@@ -35,7 +35,7 @@ namespace Farmacia.POS.Model
             Property(x => x.UsuarioCreadorId).HasColumnName(@"UsuarioCreadorId").HasColumnType("int").IsRequired();
             Property(x => x.UsuarioModificadorId).HasColumnName(@"UsuarioModificadorId").HasColumnType("int").IsRequired();
             Property(x => x.Tipo).HasColumnName(@"Tipo").HasColumnType("char").IsRequired().IsFixedLength().IsUnicode(false).HasMaxLength(10);
-            Property(x => x.Codigo).HasColumnName(@"Codigo").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(50);
+            Property(x => x.Codigo).HasColumnName(@"Codigo").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(50);
             Property(x => x.Descripcion).HasColumnName(@"Descripcion").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(300);
             Property(x => x.Clasificacion).HasColumnName(@"Clasificacion").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(50);
             Property(x => x.Activo).HasColumnName(@"Activo").HasColumnType("bit").IsRequired();

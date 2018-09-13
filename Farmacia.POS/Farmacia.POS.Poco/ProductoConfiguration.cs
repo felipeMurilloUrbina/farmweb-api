@@ -35,12 +35,13 @@ namespace Farmacia.POS.Model
             Property(x => x.CategoriaId).HasColumnName(@"CategoriaId").HasColumnType("int").IsOptional();
             Property(x => x.LineaId).HasColumnName(@"LineaId").HasColumnType("int").IsOptional();
             Property(x => x.ProveedorId).HasColumnName(@"ProveedorId").HasColumnType("int").IsOptional();
+            Property(x => x.MonedaId).HasColumnName(@"MonedaId").HasColumnType("int").IsOptional();
             Property(x => x.Codigo).HasColumnName(@"Codigo").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(50);
             Property(x => x.Descripcion).HasColumnName(@"Descripcion").HasColumnType("varbinary").IsRequired().HasMaxLength(300);
-            Property(x => x.Precio).HasColumnName(@"Precio").HasColumnType("decimal").IsRequired().HasPrecision(18,6);
-            Property(x => x.Precio1).HasColumnName(@"Precio1").HasColumnType("decimal").IsOptional().HasPrecision(18,6);
-            Property(x => x.Precio2).HasColumnName(@"Precio2").HasColumnType("decimal").IsOptional().HasPrecision(18,6);
-            Property(x => x.Precio3).HasColumnName(@"Precio3").HasColumnType("decimal").IsOptional().HasPrecision(18,6);
+            Property(x => x.Precio).HasColumnName(@"Precio").HasColumnType("money").IsRequired().HasPrecision(19,4);
+            Property(x => x.Precio1).HasColumnName(@"Precio1").HasColumnType("money").IsRequired().HasPrecision(19,4);
+            Property(x => x.Precio2).HasColumnName(@"Precio2").HasColumnType("money").IsRequired().HasPrecision(19,4);
+            Property(x => x.Precio3).HasColumnName(@"Precio3").HasColumnType("money").IsRequired().HasPrecision(19,4);
             Property(x => x.Activo).HasColumnName(@"Activo").HasColumnType("bit").IsRequired();
             Property(x => x.Fecha).HasColumnName(@"Fecha").HasColumnType("datetime").IsRequired();
             Property(x => x.Localizacion).HasColumnName(@"Localizacion").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(200);
@@ -50,6 +51,7 @@ namespace Farmacia.POS.Model
             // Foreign keys
             HasOptional(a => a.Categoria).WithMany(b => b.Productoes).HasForeignKey(c => c.CategoriaId).WillCascadeOnDelete(false); // FK_Productos_Categorias
             HasOptional(a => a.Linea).WithMany(b => b.Productoes).HasForeignKey(c => c.LineaId).WillCascadeOnDelete(false); // FK_Productos_Lineas
+            HasOptional(a => a.Moneda).WithMany(b => b.Productoes).HasForeignKey(c => c.MonedaId).WillCascadeOnDelete(false); // FK_Productos_Monedas
             HasRequired(a => a.Empresa).WithMany(b => b.Productoes).HasForeignKey(c => c.EmpresaId).WillCascadeOnDelete(false); // FK_Productos_Empresas
         }
     }

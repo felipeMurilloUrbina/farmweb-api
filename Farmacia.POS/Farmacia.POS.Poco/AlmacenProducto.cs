@@ -22,8 +22,10 @@ namespace Farmacia.POS.Model
     {
         public int ProductoId { get; set; } // ProductoId (Primary key)
         public int AlmacenId { get; set; } // AlmacenId (Primary key)
+        public string UsuarioCreadorId { get; set; } // UsuarioCreadorId (Primary key) (length: 128)
         public decimal Stock { get; set; } // Stock (Primary key)
-        public System.DateTime? FechaUltimo { get; set; } // FechaUltimo
+        public decimal CostoPromedio { get; set; } // CostoPromedio (Primary key)
+        public System.DateTime FechaUltimo { get; set; } // FechaUltimo (Primary key)
 
         // Foreign keys
 

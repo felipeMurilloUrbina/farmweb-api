@@ -29,18 +29,18 @@ namespace Farmacia.POS.Model
         public string UsuarioModificadorId { get; set; } // UsuarioModificadorId (length: 128)
 
         ///<summary>
-        /// Codigo
+        /// @Encabezado:Si@Label:Codigo@Capturable:Si
         ///</summary>
         public string Codigo { get; set; } // Codigo (length: 50)
 
         ///<summary>
-        /// Descripcion
+        /// @Encabezado:Si@Label:Descripcion@Capturable:Si
         ///</summary>
         public string Descripcion { get; set; } // Descripcion (length: 100)
         public bool Activo { get; set; } // Activo
 
         ///<summary>
-        /// Fecha
+        /// @Encabezado:Si@Label:Fecha
         ///</summary>
         public System.DateTime Fecha { get; set; } // Fecha
 

@@ -25,6 +25,7 @@
 #>
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { StructComponent } from './struct/struct.component';
 
 const routes: Routes = [
     { path: '', component: StructComponent,
@@ -32,10 +33,14 @@ const routes: Routes = [
 <#
 foreach(DataRow renglon in datTablas.Tables[0].Rows)
     {
+        if(!String.IsNullOrEmpty(renglon["table_desc"].ToString()))
+        {  
  #>
-  { path: '<#= toCamelCaseArchivo(renglon["name"].ToString())#>', loadChildren: '../<#=singulalizarPalabra(toCamelCaseArchivo( renglon["name"].ToString())) #>/<#=singulalizarPalabra(toCamelCaseArchivo( renglon["name"].ToString())) #>.module#<#=singulalizarPalabra(renglon["name"].ToString()) #>Module'},
+  { path: '<#=                toCamelCaseArchivo(renglon["name"].ToString())#>', loadChildren: '../<#=                singulalizarPalabra(toCamelCaseArchivo( renglon["name"].ToString())) #>/<#=                singulalizarPalabra(toCamelCaseArchivo( renglon["name"].ToString())) #>.module#<#=                singulalizarPalabra(renglon["name"].ToString()) #>Module'},
 <#
-   }
+        }
+        }
+                                 
  #>]}
 ];
 

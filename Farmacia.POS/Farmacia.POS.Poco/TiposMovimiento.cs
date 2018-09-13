@@ -27,27 +27,43 @@ namespace Farmacia.POS.Model
         public int UsuarioId { get; set; } // UsuarioId
         public int UsuarioCreadorId { get; set; } // UsuarioCreadorId
         public int UsuarioModificadorId { get; set; } // UsuarioModificadorId
+
+        ///<summary>
+        /// @Encabezado:No@Label:Tipo@Capturable:Si
+        ///</summary>
         public string Tipo { get; set; } // Tipo (length: 10)
 
         ///<summary>
-        /// Codigo
+        /// @Encabezado:Si@Label:Codigo@Capturable:Si
         ///</summary>
         public string Codigo { get; set; } // Codigo (length: 50)
 
         ///<summary>
-        /// Descripcion
+        /// @Encabezado:Si@Label:Descripcion@Capturable:Si
         ///</summary>
         public string Descripcion { get; set; } // Descripcion (length: 300)
 
         ///<summary>
-        /// Clasificacion
+        /// @Encabezado:Si@Label:Clasificacion@Capturable:Si
         ///</summary>
         public string Clasificacion { get; set; } // Clasificacion (length: 50)
         public bool Activo { get; set; } // Activo
+
+        ///<summary>
+        /// @Encabezado:Si@Label:Fecha
+        ///</summary>
         public System.DateTime Fecha { get; set; } // Fecha
+
+        // Reverse navigation
+
+        /// <summary>
+        /// Child Movimientoes where [Movimientos].[TipoMovimientoId] point to this entity (FK_Movimientos_TiposMovimiento)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<Movimiento> Movimientoes { get; set; } // Movimientos.FK_Movimientos_TiposMovimiento
 
         public TiposMovimiento()
         {
+            Movimientoes = new System.Collections.Generic.List<Movimiento>();
             InitializePartial();
         }
 

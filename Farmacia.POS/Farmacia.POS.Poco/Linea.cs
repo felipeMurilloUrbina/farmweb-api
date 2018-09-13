@@ -28,9 +28,21 @@ namespace Farmacia.POS.Model
         public int EmpresaId { get; set; } // EmpresaId
         public int UsuarioCreadorId { get; set; } // UsuarioCreadorId
         public int UsuarioModificadorId { get; set; } // UsuarioModificadorId
+
+        ///<summary>
+        /// @Encabezado:Si@Label:Codigo@Capturable:Si
+        ///</summary>
         public string Codigo { get; set; } // Codigo (length: 50)
+
+        ///<summary>
+        /// @Encabezado:Si@Label:Descripcion@Capturable:Si
+        ///</summary>
         public string Descripcion { get; set; } // Descripcion (length: 300)
         public bool Activo { get; set; } // Activo
+
+        ///<summary>
+        /// @Encabezado:Si@Label:Fecha
+        ///</summary>
         public System.DateTime Fecha { get; set; } // Fecha
 
         // Reverse navigation

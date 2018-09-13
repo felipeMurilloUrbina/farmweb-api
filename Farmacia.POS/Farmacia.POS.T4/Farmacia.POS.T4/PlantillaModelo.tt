@@ -11,7 +11,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ include file="$(ProjectDir)\PlantillaFunciones.tt" #>
 <#
-    string directorioRaiz = @"C:\desarrollo\GitHub\farmfront-end\src\app"; //Path.GetDirectoryName(Host.TemplateFile);
+    string directorioRaiz = @"C:\desarrollo\GitHub\sazaSuitefront-end\src\app"; //Path.GetDirectoryName(Host.TemplateFile);
     directorioRaiz= Path.Combine(directorioRaiz,"_modelos");
     DataSet datTablas= ejecutarConsulta("SELECT t.name, td.value AS [table_desc] "+
         "FROM sys.sysobjects t "+
@@ -28,7 +28,7 @@ export class <#=            singulalizarPalabra(renglon["name"].ToString()) #> {
         foreach(DataRow columna in columnas)
         {
 #>
-  public <#=                toCamelCase(columna["columna"].ToString())  #>: <#=                getTipo(columna["tipo"].ToString())#>;
+  public <#=                toCamelCase(columna["columna"].ToString())  #> <#=                getTipo(columna["tipo"].ToString())#> 
 <#
         }
 #>

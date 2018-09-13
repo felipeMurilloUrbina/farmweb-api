@@ -17,9 +17,6 @@ namespace Farmacia.POS.Model
     using Farmacia.POS.Model;
 
     // Entradas
-    ///<summary>
-    /// Catalogo
-    ///</summary>
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.1.0")]
     public partial class Entrada
     {

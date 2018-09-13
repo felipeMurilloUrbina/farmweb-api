@@ -25,16 +25,23 @@ namespace Farmacia.POS.Model
         public System.Data.Entity.DbSet<AlmacenProducto> AlmacenProductoes { get; set; } // AlmacenProductos
         public System.Data.Entity.DbSet<Categoria> Categorias { get; set; } // Categorias
         public System.Data.Entity.DbSet<Cliente> Clientes { get; set; } // Clientes
+        public System.Data.Entity.DbSet<Cobranza> Cobranzas { get; set; } // Cobranzas
         public System.Data.Entity.DbSet<Empresa> Empresas { get; set; } // Empresas
         public System.Data.Entity.DbSet<Entrada> Entradas { get; set; } // Entradas
         public System.Data.Entity.DbSet<EntradaDetalle> EntradaDetalles { get; set; } // EntradaDetalles
         public System.Data.Entity.DbSet<Formato> Formatoes { get; set; } // Formatos
+        public System.Data.Entity.DbSet<Grupos> Grupos { get; set; } // Grupos
+        public System.Data.Entity.DbSet<InventarioFisico> InventarioFisicoes { get; set; } // InventarioFisicos
         public System.Data.Entity.DbSet<Linea> Lineas { get; set; } // Lineas
         public System.Data.Entity.DbSet<Lote> Lotes { get; set; } // Lotes
+        public System.Data.Entity.DbSet<MaximosMinimo> MaximosMinimoes { get; set; } // MaximosMinimos
+        public System.Data.Entity.DbSet<Moneda> Monedas { get; set; } // Monedas
+        public System.Data.Entity.DbSet<Movimiento> Movimientoes { get; set; } // Movimientos
         public System.Data.Entity.DbSet<Plane> Planes { get; set; } // Planes
         public System.Data.Entity.DbSet<Producto> Productoes { get; set; } // Productos
         public System.Data.Entity.DbSet<Sucursale> Sucursales { get; set; } // Sucursales
         public System.Data.Entity.DbSet<TiposMovimiento> TiposMovimientoes { get; set; } // TiposMovimiento
+        public System.Data.Entity.DbSet<TransferenciasInterna> TransferenciasInternas { get; set; } // TransferenciasInternas
 
         static Contexto()
         {
@@ -88,16 +95,23 @@ namespace Farmacia.POS.Model
             modelBuilder.Configurations.Add(new AlmacenProductoConfiguration());
             modelBuilder.Configurations.Add(new CategoriaConfiguration());
             modelBuilder.Configurations.Add(new ClienteConfiguration());
+            modelBuilder.Configurations.Add(new CobranzaConfiguration());
             modelBuilder.Configurations.Add(new EmpresaConfiguration());
             modelBuilder.Configurations.Add(new EntradaConfiguration());
             modelBuilder.Configurations.Add(new EntradaDetalleConfiguration());
             modelBuilder.Configurations.Add(new FormatoConfiguration());
+            modelBuilder.Configurations.Add(new GruposConfiguration());
+            modelBuilder.Configurations.Add(new InventarioFisicoConfiguration());
             modelBuilder.Configurations.Add(new LineaConfiguration());
             modelBuilder.Configurations.Add(new LoteConfiguration());
+            modelBuilder.Configurations.Add(new MaximosMinimoConfiguration());
+            modelBuilder.Configurations.Add(new MonedaConfiguration());
+            modelBuilder.Configurations.Add(new MovimientoConfiguration());
             modelBuilder.Configurations.Add(new PlaneConfiguration());
             modelBuilder.Configurations.Add(new ProductoConfiguration());
             modelBuilder.Configurations.Add(new SucursaleConfiguration());
             modelBuilder.Configurations.Add(new TiposMovimientoConfiguration());
+            modelBuilder.Configurations.Add(new TransferenciasInternaConfiguration());
         }
 
         public static System.Data.Entity.DbModelBuilder CreateModel(System.Data.Entity.DbModelBuilder modelBuilder, string schema)
@@ -106,16 +120,23 @@ namespace Farmacia.POS.Model
             modelBuilder.Configurations.Add(new AlmacenProductoConfiguration(schema));
             modelBuilder.Configurations.Add(new CategoriaConfiguration(schema));
             modelBuilder.Configurations.Add(new ClienteConfiguration(schema));
+            modelBuilder.Configurations.Add(new CobranzaConfiguration(schema));
             modelBuilder.Configurations.Add(new EmpresaConfiguration(schema));
             modelBuilder.Configurations.Add(new EntradaConfiguration(schema));
             modelBuilder.Configurations.Add(new EntradaDetalleConfiguration(schema));
             modelBuilder.Configurations.Add(new FormatoConfiguration(schema));
+            modelBuilder.Configurations.Add(new GruposConfiguration(schema));
+            modelBuilder.Configurations.Add(new InventarioFisicoConfiguration(schema));
             modelBuilder.Configurations.Add(new LineaConfiguration(schema));
             modelBuilder.Configurations.Add(new LoteConfiguration(schema));
+            modelBuilder.Configurations.Add(new MaximosMinimoConfiguration(schema));
+            modelBuilder.Configurations.Add(new MonedaConfiguration(schema));
+            modelBuilder.Configurations.Add(new MovimientoConfiguration(schema));
             modelBuilder.Configurations.Add(new PlaneConfiguration(schema));
             modelBuilder.Configurations.Add(new ProductoConfiguration(schema));
             modelBuilder.Configurations.Add(new SucursaleConfiguration(schema));
             modelBuilder.Configurations.Add(new TiposMovimientoConfiguration(schema));
+            modelBuilder.Configurations.Add(new TransferenciasInternaConfiguration(schema));
             return modelBuilder;
         }
     }

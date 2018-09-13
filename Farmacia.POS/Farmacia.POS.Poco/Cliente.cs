@@ -25,46 +25,112 @@ namespace Farmacia.POS.Model
     {
         public int Id { get; set; } // Id (Primary key)
         public int EmpresaId { get; set; } // EmpresaId
+        public int GrupoId { get; set; } // GrupoId
         public int UsuarioCreadorId { get; set; } // UsuarioCreadorId
         public int UsuarioModificadorId { get; set; } // UsuarioModificadorId
 
         ///<summary>
-        /// Descripcion
+        /// @Encabezado:Si@Label:Codigo@Capturable:Si
         ///</summary>
-        public string Descripcion { get; set; } // Descripcion (length: 300)
+        public string Codigo { get; set; } // Codigo
 
         ///<summary>
-        /// Calle
+        /// @Encabezado:Si@Label:Descripcion@Capturable:Si
+        ///</summary>
+        public string Descripcion { get; set; } // Descripcion
+
+        ///<summary>
+        /// @Encabezado:No@Label:Calle@Capturable:No
         ///</summary>
         public string Calle { get; set; } // Calle (length: 300)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Colonia@Capturable:No
+        ///</summary>
         public string Colonia { get; set; } // Colonia (length: 50)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Ciudad@Capturable:Si
+        ///</summary>
         public string Ciudad { get; set; } // Ciudad (length: 50)
 
         ///<summary>
-        /// Codigo Postal
+        /// @Encabezado:No@Label:Codigo Postal@Capturable:Si
         ///</summary>
         public string CodigoPostal { get; set; } // CodigoPostal (length: 50)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Municipio@Capturable:Si
+        ///</summary>
         public string Municipio { get; set; } // Municipio (length: 100)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Estado@Capturable:Si
+        ///</summary>
         public string Estado { get; set; } // Estado (length: 100)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Pais@Capturable:Si
+        ///</summary>
         public string Pais { get; set; } // Pais (length: 100)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Telefono@Capturable:Si
+        ///</summary>
         public string Telefono { get; set; } // Telefono (length: 50)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Celular@Capturable:Si
+        ///</summary>
         public string Celular { get; set; } // Celular (length: 50)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Contacto@Capturable:Si
+        ///</summary>
         public string NombreContacto { get; set; } // NombreContacto (length: 500)
 
         ///<summary>
-        /// RFC
+        /// @Encabezado:Si@Label:RFC@Capturable:Si
         ///</summary>
         public string Rfc { get; set; } // Rfc (length: 100)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Correo@Capturable:Si
+        ///</summary>
         public string Correo { get; set; } // Correo (length: 200)
 
         ///<summary>
-        /// Fecha
+        /// @Encabezado:Si@Label:Fecha
         ///</summary>
         public System.DateTime Fecha { get; set; } // Fecha
         public bool Activo { get; set; } // Activo
+
+        ///<summary>
+        /// @Encabezado:No@Label:Tiene Credito@Capturable:Si
+        ///</summary>
         public bool TieneCredito { get; set; } // TieneCredito
+
+        ///<summary>
+        /// @Encabezado:No@Label:Dias de Credito@Capturable:No
+        ///</summary>
         public int DiasCredito { get; set; } // DiasCredito
+
+        ///<summary>
+        /// @Encabezado:No@Label:Limite de Credito@Capturable:No
+        ///</summary>
         public decimal LimiteCredito { get; set; } // LimiteCredito
+
+        ///<summary>
+        /// @Encabezado:No@Label:Descuento@Capturable:No
+        ///</summary>
+        public decimal? Descuento { get; set; } // Descuento
+
+        // Reverse navigation
+
+        /// <summary>
+        /// Child Cobranzas where [Cobranzas].[ClienteId] point to this entity (FK_Cobranzas_Clientes)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<Cobranza> Cobranzas { get; set; } // Cobranzas.FK_Cobranzas_Clientes
 
         // Foreign keys
 
@@ -73,8 +139,14 @@ namespace Farmacia.POS.Model
         /// </summary>
         public virtual Empresa Empresa { get; set; } // FK_Clientes_Empresas
 
+        /// <summary>
+        /// Parent Grupos pointed by [Clientes].([GrupoId]) (FK_Clientes_Grupos)
+        /// </summary>
+        public virtual Grupos Grupos { get; set; } // FK_Clientes_Grupos
+
         public Cliente()
         {
+            Cobranzas = new System.Collections.Generic.List<Cobranza>();
             InitializePartial();
         }
 

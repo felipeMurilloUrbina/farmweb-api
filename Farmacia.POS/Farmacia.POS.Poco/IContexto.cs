@@ -22,16 +22,23 @@ namespace Farmacia.POS.Model
         System.Data.Entity.DbSet<AlmacenProducto> AlmacenProductoes { get; set; } // AlmacenProductos
         System.Data.Entity.DbSet<Categoria> Categorias { get; set; } // Categorias
         System.Data.Entity.DbSet<Cliente> Clientes { get; set; } // Clientes
+        System.Data.Entity.DbSet<Cobranza> Cobranzas { get; set; } // Cobranzas
         System.Data.Entity.DbSet<Empresa> Empresas { get; set; } // Empresas
         System.Data.Entity.DbSet<Entrada> Entradas { get; set; } // Entradas
         System.Data.Entity.DbSet<EntradaDetalle> EntradaDetalles { get; set; } // EntradaDetalles
         System.Data.Entity.DbSet<Formato> Formatoes { get; set; } // Formatos
+        System.Data.Entity.DbSet<Grupos> Grupos { get; set; } // Grupos
+        System.Data.Entity.DbSet<InventarioFisico> InventarioFisicoes { get; set; } // InventarioFisicos
         System.Data.Entity.DbSet<Linea> Lineas { get; set; } // Lineas
         System.Data.Entity.DbSet<Lote> Lotes { get; set; } // Lotes
+        System.Data.Entity.DbSet<MaximosMinimo> MaximosMinimoes { get; set; } // MaximosMinimos
+        System.Data.Entity.DbSet<Moneda> Monedas { get; set; } // Monedas
+        System.Data.Entity.DbSet<Movimiento> Movimientoes { get; set; } // Movimientos
         System.Data.Entity.DbSet<Plane> Planes { get; set; } // Planes
         System.Data.Entity.DbSet<Producto> Productoes { get; set; } // Productos
         System.Data.Entity.DbSet<Sucursale> Sucursales { get; set; } // Sucursales
         System.Data.Entity.DbSet<TiposMovimiento> TiposMovimientoes { get; set; } // TiposMovimiento
+        System.Data.Entity.DbSet<TransferenciasInterna> TransferenciasInternas { get; set; } // TransferenciasInternas
 
         int SaveChanges();
         System.Data.Entity.Infrastructure.DbChangeTracker ChangeTracker { get; }

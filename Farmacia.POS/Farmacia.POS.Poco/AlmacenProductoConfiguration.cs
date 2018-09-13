@@ -28,12 +28,14 @@ namespace Farmacia.POS.Model
         public AlmacenProductoConfiguration(string schema)
         {
             ToTable("AlmacenProductos", schema);
-            HasKey(x => new { x.ProductoId, x.AlmacenId, x.Stock });
+            HasKey(x => new { x.ProductoId, x.AlmacenId, x.UsuarioCreadorId, x.Stock, x.CostoPromedio, x.FechaUltimo });
 
             Property(x => x.ProductoId).HasColumnName(@"ProductoId").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
             Property(x => x.AlmacenId).HasColumnName(@"AlmacenId").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
+            Property(x => x.UsuarioCreadorId).HasColumnName(@"UsuarioCreadorId").HasColumnType("nvarchar").IsRequired().HasMaxLength(128).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
             Property(x => x.Stock).HasColumnName(@"Stock").HasColumnType("decimal").IsRequired().HasPrecision(18,6).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
-            Property(x => x.FechaUltimo).HasColumnName(@"FechaUltimo").HasColumnType("datetime").IsOptional();
+            Property(x => x.CostoPromedio).HasColumnName(@"CostoPromedio").HasColumnType("money").IsRequired().HasPrecision(19,4).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
+            Property(x => x.FechaUltimo).HasColumnName(@"FechaUltimo").HasColumnType("datetime").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
 
             // Foreign keys
             HasRequired(a => a.Almacene).WithMany(b => b.AlmacenProductoes).HasForeignKey(c => c.AlmacenId).WillCascadeOnDelete(false); // FK_AlmacenProductos_Almacenes

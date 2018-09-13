@@ -55,14 +55,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>PlantillaComponenteCrear.tt</DependentUpon>
     </None>
-    <None Update="PlantillaComponentehtmlCrear.tt">
+    <None Update="PlantillaComponentehtmlCrearPNg.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>PlantillaComponentehtmlCrear.txt</LastGenOutput>
+      <LastGenOutput>PlantillaComponentehtmlCrearPNg.txt</LastGenOutput>
     </None>
-    <None Update="PlantillaComponentehtmlCrear.txt">
+    <None Update="PlantillaComponentehtmlCrearPNg.txt">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>PlantillaComponentehtmlCrear.tt</DependentUpon>
+      <DependentUpon>PlantillaComponentehtmlCrearPNg.tt</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PlantillaComponentehtmlCrearPNg.cs</LastGenOutput>
     </None>
     <None Update="PlantillaFunciones.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -133,16 +135,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>PlantillaModule.cs</LastGenOutput>
     </None>
-    <None Update="PlantillaComponentehtml.tt">
+    <None Update="PlantillaComponentePrimeng.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>PlantillaComponentehtml.txt</LastGenOutput>
+      <LastGenOutput>PlantillaComponentePrimeng.txt</LastGenOutput>
     </None>
-    <None Update="PlantillaComponentehtml.txt">
+    <None Update="PlantillaComponentePrimeng.txt">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>PlantillaComponentehtml.tt</DependentUpon>
+      <DependentUpon>PlantillaComponentePrimeng.tt</DependentUpon>
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>PlantillaComponentehtml.cs</LastGenOutput>
+      <LastGenOutput>PlantillaComponentePrimeng.cs</LastGenOutput>
     </None>
     <None Update="PlantillaServicio.txt">
       <DesignTime>True</DesignTime>
@@ -158,10 +160,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="PlantillaComponentehtml.cs">
+    <Compile Update="PlantillaComponentehtmlCrearPNg.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>PlantillaComponentehtml.txt</DependentUpon>
+      <DependentUpon>PlantillaComponentehtmlCrearPNg.txt</DependentUpon>
+    </Compile>
+    <Compile Update="PlantillaComponentePrimeng.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlantillaComponentePrimeng.txt</DependentUpon>
     </Compile>
     <Compile Update="PlantillaComponente.cs">
       <DesignTime>True</DesignTime>

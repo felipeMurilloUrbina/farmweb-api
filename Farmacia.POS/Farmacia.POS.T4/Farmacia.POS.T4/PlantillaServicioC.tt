@@ -9,7 +9,7 @@
 <#@ import namespace="System.Data.SqlClient" #>
 <#@ output extension=".txt" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ include file="$(ProjectDir)\PlantillaFunciones.tt" #>
+<#@ include file="$(ProjectDir)\PlantillaFuncionesC.tt" #>
 <#
     string directorioRaiz = Path.GetDirectoryName(Host.TemplateFile);
     directorioRaiz  = Path.Combine(directorioRaiz,"C","_Servicios");
@@ -23,22 +23,102 @@
     foreach(DataRow renglon in datTablas.Tables[0].Rows)
     { 
 #>
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BaseService } from './base.service';
-import { ToasterService } from 'angular2-toaster';
-@Injectable()
-export class <#=singulalizarPalabra(renglon["name"].ToString()) #>Service extends BaseService {
- constructor(public http: HttpClient, toasterService: ToasterService) {
-    super(http, '<#=renglon["name"].ToString() #>', toasterService);
-  }
+using Farmacia.POS.BLL.Properties;
+using Farmacia.POS.DAO;
+using Farmacia.POS.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-  getProfile(id: string) {
-    const url = this.actionUrl + '/' + id;
-    return this.http.get(url, this.httpOptions);
-  }
+namespace Avika.Forum.BLL
+{
+    public class Servicio<#=singulalizarPalabra(renglon["name"].ToString()) #>:IServicio, Repositorio<<#= singulalizarPalabra(renglon["name"].ToString())#>>
+    {
+        private readonly CompanyRepository _repository = null;
+        string _element = "Sucursal";
+        public Servicio<#=singulalizarPalabra(renglon["name"].ToString()) #>()
+        {
+            this._repository = repository;
+        }
+
+        public async Task<Pagination<<#=singulalizarPalabra(renglon["name"].ToString()) #>>> Obtener(int? page, int? qty)
+        {
+            var _companies = _repository.Get(page, qty).Result;
+            return _companies;
+        }
+        public async Task<<#=singulalizarPalabra(renglon["name"].ToString()) #>> Obtener(int id)
+        {
+            return await this._repository.GetId(id);
+        }
+        public string Agregar(Company company)
+        {
+            company.DateCreation = DateTime.Now;
+            company.Active = true;
+            var error = validate(company);
+            if (!string.IsNullOrEmpty(error))
+                return error;
+            var result = this._repository.Save(company).Result;
+
+            return result > 0 ? "" : String.Format(Resources.SaveError, _element);
+        }
+        public async Task<string> Actualizar(<#=singulalizarPalabra(renglon["name"].ToString()) #> <#=singulalizarPalabra(toCamelCase(renglon["name"].ToString())) #>)
+        {
+            //if (<#=singulalizarPalabra(toCamelCase(renglon["name"].ToString())) #>.Id == 0)
+            //    return "";
+            var _company = await this._repository.GetId(company.Id);
+            if (_company == null)
+                return "";
+            //_company.Name = company.Name ?? company.Name;
+            //_company.LastName = company.LastName ?? _company.LastName;
+            //_company.MotherLastName = company.MotherLastName ?? _company.MotherLastName;
+            //_company.Job = company.Job ?? _company.Job;
+            //_company.Rfc = company.Rfc ?? _company.Rfc;
+            //_company.Curp = company.Curp ?? _company.Curp;
+            //_company.Email = company.Email ?? company.Email;
+            //_company.StartWorkDate = company.StartWorkDate == null ? _company.StartWorkDate : company.StartWorkDate;
+            //_company.Gauge = company.Gauge;
+            //_company.DepartmentId = company.DepartmentId != 0 ? company.DepartmentId : _company.DepartmentId;
+            //_company.CompanyId = company.CompanyId;
+            _company.UserModificatorId = company.UserModificatorId;
+            _company.Code = company.Code;
+            _company.Description = company.Description;
+            _company.Address = company.Address;
+            var error = validate(company);
+            if (!string.IsNullOrEmpty(error))
+                return error;
+            var result = await this._repository.Save(_company);
+            return result > 0 ? "" : String.Format(Resources.SaveError, _element);
+        }
+        public async Task<int> Eliminar(int id)
+        {
+            var company = await this._repository.GetId(id);
+            company.Active = false;
+            return await this._repository.Delete(company);
+        }
+        string Validar(Company company)
+        {
+            if (String.IsNullOrEmpty(company.Description))
+                return String.Format(Resources.EmptyData, _element, "La razon social");
+            if (String.IsNullOrEmpty(company.Code))
+                return String.Format(Resources.EmptyData, _element, "La Clave");
+            var companies = _repository.FindBy(c => c.Code.Equals(company.Code) || c.Description.Equals(company.Description)).ToList();
+            if (companies.FirstOrDefault(x => x.Id == company.Id) != null)
+                return "";
+            foreach (var compTemp in companies)
+            {
+                if (company.Code.Equals(compTemp.Code))
+                    return String.Format(Resources.DuplicateData, "la clave", _element);
+                if (company.Description.Equals(compTemp.Description))
+                    return String.Format(Resources.DuplicateData, "La razón social", _element);
+            }
+            return "";
+        }
+    }
 }
+
 <#
-  guardarSalida(directorioRaiz,toCamelCaseArchivo(renglon["name"].ToString()) + ".service.cs");
+  guardarSalida(directorioRaiz,("Servicio"+singulalizarPalabra(renglon["name"].ToString())) + ".cs");
     }
 #>

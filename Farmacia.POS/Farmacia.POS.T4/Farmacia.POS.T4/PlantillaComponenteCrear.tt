@@ -11,7 +11,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ include file="$(ProjectDir)\PlantillaFunciones.tt" #>
 <#
-    string directorioRaiz = @"C:\desarrollo\GitHub\farmfront-end\src\app"; //Path.GetDirectoryName(Host.TemplateFile);
+    string directorioRaiz = @"C:\desarrollo\GitHub\sazaSuitefront-end\src\app"; //Path.GetDirectoryName(Host.TemplateFile);
     //string directorioRaiz = Path.GetDirectoryName(Host.TemplateFile);
     directorioRaiz  = Path.Combine(directorioRaiz,"_modulos");
     DataSet datTablas= ejecutarConsulta("SELECT t.name, td.value AS [table_desc] "+
@@ -77,7 +77,7 @@ export class Nuevo<#=singulalizarPalabra(renglon["name"].ToString()) #>Component
 
   guardar() {
     this.servicio.save(this.<#=singulalizarPalabra(toCamelCase(renglon["name"].ToString())) #>, '').subscribe( dato => {
-        this.servicio.enviarMensaje(MensajeEstatus.ok, '<#=renglon["name"].ToString() #>', dato);
+        //this.servicio.enviarMensaje(MensajeEstatus.ok, '<#=renglon["name"].ToString() #>', dato);
         this.limpiar();
     });
   }

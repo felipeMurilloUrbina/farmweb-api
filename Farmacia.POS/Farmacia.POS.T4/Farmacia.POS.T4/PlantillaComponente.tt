@@ -12,7 +12,7 @@
 <#@ include file="$(ProjectDir)\PlantillaFunciones.tt" #>
 <#
     //string directorioRaiz = Path.GetDirectoryName(Host.TemplateFile);
-    string directorioRaiz = @"C:\desarrollo\GitHub\farmfront-end\src\app"; //Path.GetDirectoryName(Host.TemplateFile);
+    string directorioRaiz = @"C:\desarrollo\GitHub\sazaSuitefront-end\src\app"; //Path.GetDirectoryName(Host.TemplateFile);
 
     directorioRaiz  = Path.Combine(directorioRaiz,"_modulos");
     DataSet datTablas= ejecutarConsulta("SELECT t.name, td.value AS [table_desc] "+
@@ -23,36 +23,43 @@
         " order by  t.name ");
     foreach(DataRow renglon in datTablas.Tables[0].Rows)
     {
-       
+     if(!String.IsNullOrEmpty(renglon["table_desc"].ToString()))
+        {  
 #>
 import { Component, OnInit } from '@angular/core';
-import { <#=singulalizarPalabra(renglon["name"].ToString()) #>Service } from '../../_servicios/<#=singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString())) #>.service';
+import { <#=                singulalizarPalabra(renglon["name"].ToString()) #>Service } from '../../_servicios/<#=                singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString())) #>.service';
 import { MensajeEstatus } from '../../_modelos/mensaje.enum';
 
 @Component({
-  selector: 'app-<#=singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString())) #>',
-  templateUrl: './<#=singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString())) #>.component.html',
-  styleUrls: ['./<#=singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString())) #>.component.css']
+  selector: 'app-<#=                singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString())) #>',
+  templateUrl: './<#=                singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString())) #>.component.html',
+  styleUrls: ['./<#=                singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString())) #>.component.css']
 })
-export class <#=singulalizarPalabra(renglon["name"].ToString()) #>Component implements OnInit {
-  <#=(renglon["name"].ToString()) #>: any[];
+export class <#=                singulalizarPalabra(renglon["name"].ToString()) #>Component implements OnInit {
+  <#=                toCamelCase(renglon["name"].ToString()) #>: any[];
   cols: any[];
-  titulo = '<#=(renglon["name"].ToString()) #>';  
-  constructor(public servicio: <#=singulalizarPalabra(renglon["name"].ToString()) #>Service) { 
+  titulo = '<#=                (renglon["name"].ToString()) #>';
+  constructor(public servicio: <#=                singulalizarPalabra(renglon["name"].ToString()) #>Service) {
 <#
-        DataRowCollection columnas = getColumnas(renglon["name"].ToString());
+            DataRowCollection columnas = getColumnas(renglon["name"].ToString());
         
 #>
-        this.cols = [
+    this.cols = [
 <#
-  foreach(DataRow columna in columnas)
-        {
+            foreach(DataRow columna in columnas)
+            {
+                var propiedades =getPropiedades(columna["Description"].ToString());
+
+                if((propiedades.Count>0) && (propiedades.FirstOrDefault(d=>d.Clave=="Encabezado").Descripcion.ToString().Equals("Si")))
+                {
+                    Console.WriteLine(columna["Description"].ToString());
 #>
-          { field: '<#=toCamelCase(columna["column"].ToString()) #>', header: '<#=(columna["Description"].ToString()) #>' },
+      { field: '<#=                        toCamelCase(columna["column"].ToString()) #>', header: '<#=                        propiedades.FirstOrDefault(d=>d.Clave.Equals("Label")).Descripcion#>' },
 <#
-  }                                                                                                    
+                }
+            }                                                                                                    
 #>
-        ]; 
+    ];
   }
 
 
@@ -62,7 +69,7 @@ export class <#=singulalizarPalabra(renglon["name"].ToString()) #>Component impl
 
   get() {
     this.servicio.getAll(1, 0).subscribe(data => {
-      this.<#=(renglon["name"].ToString()) #> = data['items'];
+      this.<#=                toCamelCase(renglon["name"].ToString()) #> = data['items'];
     });
   }
 }
@@ -72,8 +79,8 @@ export class <#=singulalizarPalabra(renglon["name"].ToString()) #>Component impl
 #>
 
 <#
-  guardarSalida(Path.Combine(directorioRaiz,singulalizarPalabra(toCamelCaseArchivo( renglon["name"].ToString()))), singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString())) + ".component.ts");
-  guardarSalida(Path.Combine(directorioRaiz,singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString()))), singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString())) + ".component.css");
-
+            guardarSalida(Path.Combine(directorioRaiz,singulalizarPalabra(toCamelCaseArchivo( renglon["name"].ToString()))), singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString())) + ".component.ts");
+            guardarSalida(Path.Combine(directorioRaiz,singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString()))), singulalizarPalabra(toCamelCaseArchivo(renglon["name"].ToString())) + ".component.css");
+        }
     }
 #>  

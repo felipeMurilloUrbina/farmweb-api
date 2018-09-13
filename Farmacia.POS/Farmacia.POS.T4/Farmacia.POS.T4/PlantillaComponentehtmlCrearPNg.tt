@@ -1,0 +1,123 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ Assembly Name="System.Data" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ output extension=".txt" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ include file="$(ProjectDir)\PlantillaFunciones.tt" #>
+<#
+    string directorioRaiz = @"C:\desarrollo\GitHub\sazaSuitefront-end\src\app"; //Path.GetDirectoryName(Host.TemplateFile);
+    //string directorioRaiz = Path.GetDirectoryName(Host.TemplateFile);
+    directorioRaiz  = Path.Combine(directorioRaiz,"_modulos");
+    DataSet datTablas= ejecutarConsulta("SELECT t.name, td.value AS [table_desc] "+
+        "FROM sys.sysobjects t "+
+        " JOIN sys.extended_properties td on  td.major_id = t.id "+
+        " AND     td.minor_id = 0 "+
+        " AND     td.name = 'MS_Description'"+
+        " order by  t.name ");
+    foreach(DataRow renglon in datTablas.Tables[0].Rows)
+    {   
+#>
+<div class="ui-g ui-fluid">
+    <div class="ui-g-12 ui-lg-6">
+        <!-- Left Side -->
+        <div class="card card-w-title">
+        <form #<#=singulalizarPalabra(toCamelCase(renglon["name"].ToString())) #>Form="ngForm" (submit)="save(<#=singulalizarPalabra(toCamelCase(renglon["name"].ToString())) #>);" ngNativeValidate>
+          <div class="row">
+<#
+        DataSet columnas = getColumnasTipoDescripcion(renglon["name"].ToString());
+        #>
+<# 
+        for(int i=0; i<columnas.Tables[0].Rows.Count; i++)
+        {
+            var renglonC=columnas.Tables[0].Rows[i];
+            var renglonC2=columnas.Tables[1].Rows[i];
+            if(!String.IsNullOrEmpty(renglonC2["Description"].ToString()))
+            {
+                List<Propiedad> propiedades= getPropiedades(renglonC2["Description"].ToString());
+                if(propiedades.Where(p=>p.Clave.Equals("Capturable")).Count()>0)
+#>
+          <#= getRegistro(singulalizarPalabra(toCamelCase(renglonC["name"].ToString())), renglonC2["Description"].ToString(), toCamelCase(renglonC["columna"].ToString()), renglonC["tipo"].ToString(), propiedades)  #>  
+<#
+             }
+        }
+#>   
+          </div>  
+          <div  class="container-fluid text-center">
+            <button class="btn btn-app"  routerLink="/admin/<#=(toCamelCaseArchivo(renglon["name"].ToString()))#>"><i class="fa fa-arrow-circle-left"></i>Cancelar</button>
+            <button type="submit" class="btn btn-app"><i class="fa fa-save"></i>Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+<#
+   guardarSalida(Path.Combine(directorioRaiz,singulalizarPalabra(toCamelCaseArchivo( renglon["name"].ToString())), "nuevo"), "nuevo.component.html");
+ }
+ #>  
+<#+
+    private string getRegistro(string modelo, string  label, string nombre, string tipo, List<Propiedad> propiedades){
+        StringBuilder respuesta=new StringBuilder();
+        if(getCapturable(propiedades))
+        {
+            switch(tipo)
+            { 
+                case "decimal":
+                    respuesta.AppendLine("  <div class=\"col-md-4\">");
+                    respuesta.AppendLine("              <div class=\"form-group\">");
+                    respuesta.AppendLine( "                <label for=\""+nombre+"Input\">"+getLabel(propiedades) +":</label>");
+                    respuesta.AppendLine("                <input type=\"number\" class=\"form-control\"  #"+nombre+"Input step=\"any\" id=\""+nombre+"\" [value]=\""+modelo+"."+nombre+"\" (change)=\""+modelo+"."+nombre+" = "+nombre+"Input.value\" placeholder=\""+getLabel(propiedades)+" ...\""+getRequerido(propiedades)+" >");
+                    respuesta.AppendLine( "              </div>");
+                    respuesta.AppendLine("            </div>");
+                    break;
+                case "money":
+                    respuesta.AppendLine("  <div class=\"col-md-4\">");
+                    respuesta.AppendLine("              <div class=\"form-group\">");
+                    respuesta.AppendLine( "                <label for=\""+nombre+"Input\">"+getLabel(propiedades) +":</label>");
+                    respuesta.AppendLine("                <input type=\"date\" class=\"form-control\"  #"+nombre+"Input step=\"any\" id=\""+nombre+"\" [value]=\""+modelo+"."+nombre+"\" (change)=\""+modelo+"."+nombre+" = "+nombre+"Input.value\" placeholder=\""+getLabel(propiedades)+" ...\" "+getRequerido(propiedades)+">");
+                    respuesta.AppendLine( "              </div>");
+                    respuesta.AppendLine("            </div>");
+                    break;
+                case "datetime":
+                    respuesta.AppendLine("  <div class=\"col-md-4\">");
+                    respuesta.AppendLine("              <div class=\"form-group\">");
+                    respuesta.AppendLine( "                <label for=\""+nombre+"Input\">"+getLabel(propiedades) +":</label>");
+                    respuesta.AppendLine("                <input type=\"date\" class=\"form-control\"  #"+nombre+"Input id=\""+nombre+"\" [value]=\""+modelo+"."+nombre+"\" (change)=\""+modelo+"."+nombre+" = "+nombre+"Input.value\" placeholder=\""+getLabel(propiedades)+" ...\" "+getRequerido(propiedades)+">");
+                    respuesta.AppendLine( "              </div>");
+                    respuesta.AppendLine("            </div>");
+                    break;
+                default:
+                    respuesta.AppendLine("  <div class=\"col-md-4\">");
+                    respuesta.AppendLine("              <div class=\"form-group\">");
+                    respuesta.AppendLine( "                <label for=\""+nombre+"Input\">"+getLabel(propiedades) +":</label>");
+                    respuesta.AppendLine("                <input type=\"text\" class=\"form-control\"  #"+nombre+"Input id=\""+nombre+"\" [value]=\""+modelo+"."+nombre+"\" (change)=\""+modelo+"."+nombre+" = "+nombre+"Input.value\" placeholder=\""+getLabel(propiedades)+" ...\" "+getRequerido(propiedades)+">");
+                    respuesta.AppendLine( "              </div>");
+                    respuesta.AppendLine("            </div>");
+                    break;
+            }
+        }
+        return respuesta.ToString();
+    }
+    private string getRequerido(List<Propiedad> propiedades)
+    {
+        var propiedad = propiedades.FirstOrDefault(p => p.Clave.Equals("Capturable"));
+        return propiedad != null  &&  propiedad.Descripcion.ToLower().Equals("si") ? "required": "";
+    }
+
+    private string getLabel(List<Propiedad> propiedades)
+    {
+        var propiedad = propiedades.FirstOrDefault(p => p.Clave.ToLower().Equals("label"));
+        return propiedad != null  ? propiedad.Descripcion : "";
+    }
+    
+    private bool getCapturable(List<Propiedad> propiedades)
+    {
+        var propiedad = propiedades.FirstOrDefault(p => p.Clave.ToLower().Equals("capturable"));
+        return propiedad != null  ? true: false;
+    }
+#>

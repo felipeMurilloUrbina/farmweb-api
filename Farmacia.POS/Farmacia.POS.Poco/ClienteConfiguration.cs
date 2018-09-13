@@ -32,9 +32,11 @@ namespace Farmacia.POS.Model
 
             Property(x => x.Id).HasColumnName(@"Id").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
             Property(x => x.EmpresaId).HasColumnName(@"EmpresaId").HasColumnType("int").IsRequired();
+            Property(x => x.GrupoId).HasColumnName(@"GrupoId").HasColumnType("int").IsRequired();
             Property(x => x.UsuarioCreadorId).HasColumnName(@"UsuarioCreadorId").HasColumnType("int").IsRequired();
             Property(x => x.UsuarioModificadorId).HasColumnName(@"UsuarioModificadorId").HasColumnType("int").IsRequired();
-            Property(x => x.Descripcion).HasColumnName(@"Descripcion").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(300);
+            Property(x => x.Codigo).HasColumnName(@"Codigo").HasColumnType("varchar(max)").IsRequired().IsUnicode(false);
+            Property(x => x.Descripcion).HasColumnName(@"Descripcion").HasColumnType("varchar(max)").IsRequired().IsUnicode(false);
             Property(x => x.Calle).HasColumnName(@"Calle").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(300);
             Property(x => x.Colonia).HasColumnName(@"Colonia").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(50);
             Property(x => x.Ciudad).HasColumnName(@"Ciudad").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(50);
@@ -52,9 +54,11 @@ namespace Farmacia.POS.Model
             Property(x => x.TieneCredito).HasColumnName(@"TieneCredito").HasColumnType("bit").IsRequired();
             Property(x => x.DiasCredito).HasColumnName(@"DiasCredito").HasColumnType("int").IsRequired();
             Property(x => x.LimiteCredito).HasColumnName(@"LimiteCredito").HasColumnType("decimal").IsRequired().HasPrecision(18,6);
+            Property(x => x.Descuento).HasColumnName(@"Descuento").HasColumnType("decimal").IsOptional().HasPrecision(18,6);
 
             // Foreign keys
             HasRequired(a => a.Empresa).WithMany(b => b.Clientes).HasForeignKey(c => c.EmpresaId).WillCascadeOnDelete(false); // FK_Clientes_Empresas
+            HasRequired(a => a.Grupos).WithMany(b => b.Clientes).HasForeignKey(c => c.GrupoId).WillCascadeOnDelete(false); // FK_Clientes_Grupos
         }
     }
 

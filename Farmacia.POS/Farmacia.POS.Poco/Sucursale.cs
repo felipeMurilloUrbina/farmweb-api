@@ -31,42 +31,115 @@ namespace Farmacia.POS.Model
         public int? AlmacenPrincipalId { get; set; } // AlmacenPrincipalId
 
         ///<summary>
-        /// Descripcion
+        /// @Encabezado:Si@Label:Codigo@Capturable:Si
+        ///</summary>
+        public string Codigo { get; set; } // Codigo (length: 50)
+
+        ///<summary>
+        /// @Encabezado:Si@Label:Descripcion@Capturable:Si
         ///</summary>
         public string Descripcion { get; set; } // Descripcion (length: 300)
 
         ///<summary>
-        /// NombreComercial
+        /// @Encabezado:Si@Label:Nombre Comercial@Capturable:No
         ///</summary>
         public string NombreComercial { get; set; } // NombreComercial (length: 100)
 
         ///<summary>
-        /// RFC
+        /// @Encabezado:Si@Label:RFC@Capturable:Si
         ///</summary>
         public string Rfc { get; set; } // Rfc (length: 100)
+
+        ///<summary>
+        /// @Encabezado:Si@Label:Serie@Capturable:No
+        ///</summary>
         public string Serie { get; set; } // Serie (length: 50)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Calle@Capturable:No
+        ///</summary>
         public string Calle { get; set; } // Calle (length: 300)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Colonia@Capturable:No
+        ///</summary>
         public string Colonia { get; set; } // Colonia (length: 50)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Ciudad@Capturable:No
+        ///</summary>
         public string Ciudad { get; set; } // Ciudad (length: 50)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Codigo Postal@Capturable:No
+        ///</summary>
         public string CodigoPostal { get; set; } // CodigoPostal (length: 50)
 
         ///<summary>
-        /// Municipio
+        /// @Encabezado:No@Label:Municipio@Capturable:No
         ///</summary>
         public string Municipio { get; set; } // Municipio (length: 100)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Estado@Capturable:No
+        ///</summary>
         public string Estado { get; set; } // Estado (length: 100)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Pais@Capturable:No
+        ///</summary>
         public string Pais { get; set; } // Pais (length: 100)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Telefono@Capturable:No
+        ///</summary>
         public string Telefono { get; set; } // Telefono (length: 50)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Celular@Capturable:No
+        ///</summary>
         public string Celular { get; set; } // Celular (length: 50)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Ruta Certificado@Capturable:No
+        ///</summary>
         public string RutaCer { get; set; } // RutaCer (length: 100)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Ruta Llave Privada@Capturable:No
+        ///</summary>
         public string RutaKey { get; set; } // RutaKey (length: 100)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Clave@Capturable:No
+        ///</summary>
         public string ClavePrivada { get; set; } // ClavePrivada (length: 100)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Imagen Logo@Capturable:No
+        ///</summary>
         public string Logo { get; set; } // Logo (length: 160)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Mensaje Personal@Capturable:No
+        ///</summary>
         public string MensajeComercial { get; set; } // MensajeComercial (length: 100)
         public bool Activo { get; set; } // Activo
+
+        ///<summary>
+        /// @Encabezado:No@Encabezado:Si@Label:Fecha
+        ///</summary>
         public System.DateTime Fecha { get; set; } // Fecha
         public string ColorReporte { get; set; } // ColorReporte (length: 50)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Asunto@Capturable:No
+        ///</summary>
         public string Asunto { get; set; } // Asunto
+
+        ///<summary>
+        /// @Encabezado:No@Label:Mensaje Correo@Capturable:No
+        ///</summary>
         public string Mensaje { get; set; } // Mensaje
 
         // Reverse navigation
@@ -75,6 +148,18 @@ namespace Farmacia.POS.Model
         /// Child Almacenes where [Almacenes].[SucursalId] point to this entity (FK_Almacenes_Sucursales)
         /// </summary>
         public virtual System.Collections.Generic.ICollection<Almacene> Almacenes { get; set; } // Almacenes.FK_Almacenes_Sucursales
+        /// <summary>
+        /// Child Cobranzas where [Cobranzas].[SucursalId] point to this entity (FK_Cobranzas_Sucursales)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<Cobranza> Cobranzas { get; set; } // Cobranzas.FK_Cobranzas_Sucursales
+        /// <summary>
+        /// Child InventarioFisicoes where [InventarioFisicos].[SucursalId] point to this entity (FK_InventarioFisicos_Sucursales)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<InventarioFisico> InventarioFisicoes { get; set; } // InventarioFisicos.FK_InventarioFisicos_Sucursales
+        /// <summary>
+        /// Child Movimientoes where [Movimientos].[SucursalId] point to this entity (FK_Movimientos_Sucursales)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<Movimiento> Movimientoes { get; set; } // Movimientos.FK_Movimientos_Sucursales
 
         // Foreign keys
 
@@ -91,6 +176,9 @@ namespace Farmacia.POS.Model
         public Sucursale()
         {
             Almacenes = new System.Collections.Generic.List<Almacene>();
+            Cobranzas = new System.Collections.Generic.List<Cobranza>();
+            InventarioFisicoes = new System.Collections.Generic.List<InventarioFisico>();
+            Movimientoes = new System.Collections.Generic.List<Movimiento>();
             InitializePartial();
         }
 

@@ -25,9 +25,21 @@ namespace Farmacia.POS.Model
     {
         public int Id { get; set; } // Id (Primary key)
         public int TipoPlanId { get; set; } // TipoPlanId
+
+        ///<summary>
+        /// @Encabezado:Si@Label:Descripcion:@Capturable:Si
+        ///</summary>
         public string Descripcion { get; set; } // Descripcion (length: 300)
+
+        ///<summary>
+        /// @Encabezado:No@Label:Avatar@Capturable:Si
+        ///</summary>
         public string Avatar { get; set; } // Avatar
-        public System.DateTime? Fecha { get; set; } // Fecha
+
+        ///<summary>
+        /// @Encabezado:Si@Label:Fecha
+        ///</summary>
+        public System.DateTime Fecha { get; set; } // Fecha
         public bool Activo { get; set; } // Activo
 
         // Reverse navigation
@@ -45,13 +57,37 @@ namespace Farmacia.POS.Model
         /// </summary>
         public virtual System.Collections.Generic.ICollection<Cliente> Clientes { get; set; } // Clientes.FK_Clientes_Empresas
         /// <summary>
+        /// Child Cobranzas where [Cobranzas].[EmpresaId] point to this entity (FK_Cobranzas_Empresas)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<Cobranza> Cobranzas { get; set; } // Cobranzas.FK_Cobranzas_Empresas
+        /// <summary>
         /// Child Entradas where [Entradas].[EmpresaId] point to this entity (FK_Entradas_Empresas)
         /// </summary>
         public virtual System.Collections.Generic.ICollection<Entrada> Entradas { get; set; } // Entradas.FK_Entradas_Empresas
         /// <summary>
+        /// Child Grupos where [Grupos].[EmpresaId] point to this entity (FK_Grupos_Empresas)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<Grupos> Grupos { get; set; } // Grupos.FK_Grupos_Empresas
+        /// <summary>
+        /// Child InventarioFisicoes where [InventarioFisicos].[EmpresaId] point to this entity (FK_InventarioFisicos_Empresas)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<InventarioFisico> InventarioFisicoes { get; set; } // InventarioFisicos.FK_InventarioFisicos_Empresas
+        /// <summary>
         /// Child Lineas where [Lineas].[EmpresaId] point to this entity (FK_Lineas_Empresas)
         /// </summary>
         public virtual System.Collections.Generic.ICollection<Linea> Lineas { get; set; } // Lineas.FK_Lineas_Empresas
+        /// <summary>
+        /// Child MaximosMinimoes where [MaximosMinimos].[EmpresaId] point to this entity (FK_MaximosMinimos_Empresas)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<MaximosMinimo> MaximosMinimoes { get; set; } // MaximosMinimos.FK_MaximosMinimos_Empresas
+        /// <summary>
+        /// Child Monedas where [Monedas].[EmpresaId] point to this entity (FK_Monedas_Empresas)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<Moneda> Monedas { get; set; } // Monedas.FK_Monedas_Empresas
+        /// <summary>
+        /// Child Movimientoes where [Movimientos].[EmpresaId] point to this entity (FK_Movimientos_Empresas)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<Movimiento> Movimientoes { get; set; } // Movimientos.FK_Movimientos_Empresas
         /// <summary>
         /// Child Productoes where [Productos].[EmpresaId] point to this entity (FK_Productos_Empresas)
         /// </summary>
@@ -73,8 +109,14 @@ namespace Farmacia.POS.Model
             Almacenes = new System.Collections.Generic.List<Almacene>();
             Categorias = new System.Collections.Generic.List<Categoria>();
             Clientes = new System.Collections.Generic.List<Cliente>();
+            Cobranzas = new System.Collections.Generic.List<Cobranza>();
             Entradas = new System.Collections.Generic.List<Entrada>();
+            Grupos = new System.Collections.Generic.List<Grupos>();
+            InventarioFisicoes = new System.Collections.Generic.List<InventarioFisico>();
             Lineas = new System.Collections.Generic.List<Linea>();
+            MaximosMinimoes = new System.Collections.Generic.List<MaximosMinimo>();
+            Monedas = new System.Collections.Generic.List<Moneda>();
+            Movimientoes = new System.Collections.Generic.List<Movimiento>();
             Productoes = new System.Collections.Generic.List<Producto>();
             Sucursales = new System.Collections.Generic.List<Sucursale>();
             InitializePartial();
